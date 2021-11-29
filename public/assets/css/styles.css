@@ -1210,6 +1210,11 @@ progress {
     width: 16.66666667%;
   }
 
+  .col-md-2 {
+    flex: 0 0 auto;
+    width: 16.66666667%;
+  }
+
   .col-md-4 {
     flex: 0 0 auto;
     width: 33.33333333%;
@@ -1425,7 +1430,7 @@ progress {
 
   .col-lg-4 {
     flex: 0 0 auto;
-    width: 33.33333333%;
+    width: 25%;
   }
 
   .col-lg-5 {
@@ -4330,7 +4335,7 @@ fieldset:disabled .btn {
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
   margin-right: 1rem;
-  font-size: 1.25rem;
+  font-size: 5.25rem;
   text-decoration: none;
   white-space: nowrap;
 }
@@ -11852,7 +11857,7 @@ header.masthead .masthead-heading {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(255, 200, 0, 0.9);
+  background: rgba(85, 85, 85, 0.5);
   align-items: center;
   justify-content: center;
   opacity: 0;
@@ -12189,4 +12194,113 @@ section#contact form#contactForm :-ms-input-placeholder {
   font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.logo {
+  width: 250px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.profile-img {
+  width: 170px;
+  height: 170px;
+}
+
+.col-2-min-wid {
+  flex: 0 0 200px;
+  width: 16.66666667%;
+}
+
+.rating {
+  display: block;
+  min-width: 100px;
+}
+
+.description {
+  min-width: 200px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.vertical-spacing {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.right-spacing {
+  margin-right: 10px;
+}
+
+.subtext {
+  font-size: 0.85rem;
+  margin: 5px;
+}
+
+.button-height {
+  height: 100%;
+}
+
+.pages {
+  justify-content: right;
+}
+
+.li-style {
+  padding-left: 8px;
+}
+
+.grid {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 2px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid .grid-body {
+  padding: 15px 20px 15px 20px;
+  font-size: 0.9em;
+  line-height: 1.9em;
+}
+
+.btn {
+  margin-bottom: 5px;
+}
+
+.search table tr td.rate {
+  color: #f39c12;
+  line-height: 50px;
+}
+
+.search table tr:hover {
+  cursor: pointer;
+}
+
+.search table tr td.image {
+  width: 50px;
+}
+
+.search table tr td img {
+  width: 50px;
+  height: 50px;
+}
+
+.search table tr td.rate {
+  color: #f39c12;
+  line-height: 50px;
+}
+
+.search table tr td.price {
+  font-size: 1.5em;
+  line-height: 50px;
+}
+
+.search #price1,
+.search #price2 {
+  display: inline;
+  font-weight: 600;
 }
