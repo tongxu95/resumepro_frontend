@@ -22,7 +22,7 @@ function Pagination(props) {
     // sample data
 
     const [currentPage, setCurrentPage] = useState(1);
-    const perPage = 1;
+    const perPage = 8;
 
     const lastIndex = currentPage * perPage;
     const firstIndex = lastIndex - perPage;
@@ -73,7 +73,7 @@ function Pagination(props) {
 
     return (
         <div>
-            <div className="col-10">
+            <div>
                 <div className="row">
                     {/* Dropdown for sorting results */}
 
@@ -93,7 +93,6 @@ function Pagination(props) {
                 </ul>
             </div>
         </div>
-
     );
 
 }

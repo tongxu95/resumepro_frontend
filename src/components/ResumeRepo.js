@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Pagination from './Pagination';
+import ResumePagination from './ResumePagination';
 
 function ResumeRepo(props) {
 
@@ -48,7 +48,7 @@ function ResumeRepo(props) {
                             </button>
                         </span>
                     </div>
-                    <p className="align-left subtext">Showing all results {searchResult}</p>
+                    <p className="align-left notes">Showing all results {searchResult}</p>
                 </div>
 
                 <div className="col-2-min-wid grid-body">
@@ -87,8 +87,10 @@ function ResumeRepo(props) {
                         </label>
                     </div>
                 </div>
-
-                <Pagination pages="2" />
+                
+                <div className="col-10">
+                    <ResumePagination pages="2" />
+                </div>
                 
             </div>
         </div>
