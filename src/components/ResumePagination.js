@@ -1,25 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import StarRating from './StarRating';
 
-function Pagination(props) {
-    
-    // sample data
-    const coach1 = {
-        name: 'Olive Tree',
-        role: 'Product Manager at Orange', 
-        rating: 4.2,
-        resume: 5.0,
-    };
 
-    const coach2 = {
-        name: 'Adam Tran',
-        role: 'Software Developer at Orange', 
-        rating: 3.9,
-        resume: 15.0,
-    };
+const COACH_REST_API_URL = "http://localhost:8080/coaches";
 
-    const coaches = [coach1, coach2];
-    // sample data
+function Pagination(props) {    
+
+    const [coaches, setCoaches] = useState([]);
+    // useEffect = componentDidMount + componentDidUpdate + componentWillUnmount
+    // passing an empty array [] as second argument tells React that your effect doesn't depend on any value from props or states; otherwise the state change triggers re-rendering (infinite loop) = componentDidMount + componentWillUnmount
+    useEffect(() => {
+        axios.get(COACH_REST_API_URL).then((response) => {
+            setCoaches(response.data._embedded.coaches);
+        });
+    }, []);
+
+    const averageRatings = (arr) => {
+        return arr.reduce((a,b) => a+b, 0)/arr.length;
+    }
 
     const [currentPage, setCurrentPage] = useState(1);
     const perPage = 8;
@@ -30,7 +29,7 @@ function Pagination(props) {
 
     const renderResults = currentIndices.map((result, index) => {
         return(
-            <tr>
+            <tr key={index}>
                 <td className="image">
                     <img className="profile-img" src="https://via.placeholder.com/400x300/FF8C00" alt=""/>
                 </td>
@@ -40,9 +39,9 @@ function Pagination(props) {
                     {result.role}
                 </td>
                 <td valign="middle">
-                    <StarRating rating={result.rating}/>
+                    <StarRating rating={averageRatings(result.ratings)}/>
                 </td>
-                <td className="price" valign="middle">${result.resume.toFixed(2)}</td>
+                <td className="price" valign="middle">${result.resumeFee.toFixed(2)}</td>
             </tr>
         );
     });
