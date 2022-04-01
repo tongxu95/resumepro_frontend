@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import StarRating from './StarRating';
+import AddRating from './AddRating';
 
 
 const COACH_REST_API_URL = "http://localhost:8080/coaches";
@@ -12,13 +13,45 @@ function Pagination(props) {
     // passing an empty array [] as second argument tells React that your effect doesn't depend on any value from props or states; otherwise the state change triggers re-rendering (infinite loop) = componentDidMount + componentWillUnmount
     useEffect(() => {
         axios.get(COACH_REST_API_URL).then((response) => {
+            console.log(response.data._embedded.coaches);
             setCoaches(response.data._embedded.coaches);
         });
     }, []);
 
     const averageRatings = (arr) => {
-        return arr.reduce((a,b) => a+b, 0)/arr.length;
+        return (arr != null) ? arr.reduce((a,b) => a+b, 0)/arr.length : 0;
     }
+
+    const countRatings = (arr) => {
+        return (arr != null) ? arr.length : 0;
+    }
+
+    const [trigger, setTrigger] = useState(false);
+    const [coachIndexForNewRating, setcoachIndexForNewRating] = useState();
+    const [coachesIndex, setcoachesIndex] = useState();
+    const [newRating, setNewRating] = useState();
+
+    useEffect(() => {
+        if (newRating != null) {
+            console.log(newRating);
+            console.log(coachesIndex);
+            console.log(coachIndexForNewRating);
+            console.log(coaches[coachesIndex].ratings);
+            let oldRatings = coaches[coachesIndex].ratings;
+            if (oldRatings == null) {
+
+                axios.patch(COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings":[`${newRating}`]}).then((response) => {
+                    console.log(response.data);                        
+                })
+            } else {
+                oldRatings.push(newRating);
+                axios.patch(COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings": oldRatings}).then((response) => {
+                    console.log(response.data);
+                })
+            }
+        }
+
+    }, [newRating])
 
     const [currentPage, setCurrentPage] = useState(1);
     const perPage = 8;
@@ -39,7 +72,23 @@ function Pagination(props) {
                     {result.role}
                 </td>
                 <td valign="middle">
-                    <StarRating rating={averageRatings(result.ratings)}/>
+                    <div>
+                        <StarRating rating={averageRatings(result.ratings)} count={countRatings(result.ratings)}/>
+                    </div>
+                    <br/>
+                    <div >
+                        <a 
+                            className="nav-link"
+                            onClick={() => {
+                                setcoachIndexForNewRating(result.id);
+                                setcoachesIndex(index);
+                                setTrigger(true);
+                            }}
+                        >
+                            Rate {result.name} 
+                        </a>
+                        {coachIndexForNewRating == result.id && trigger && <AddRating coach={result.name} trigger={setTrigger} setRating={setNewRating}/>}
+                    </div>
                 </td>
                 <td className="price" valign="middle">${result.resumeFee.toFixed(2)}</td>
             </tr>
