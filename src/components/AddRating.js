@@ -4,7 +4,6 @@ import { Rating } from 'react-simple-star-rating';
 import axios from 'axios';
 
 import './AddRating.css';
-import Star from "./Star";
 
 
 function AddRating(props) {

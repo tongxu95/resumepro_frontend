@@ -13,7 +13,7 @@ function StarRating(props) {
             ))}
             </span>
             {props.count != 0 && 
-                <span>&nbsp;({props.count})</span>
+                <span> {props.rating.toPrecision(2)} ({props.count})</span>
             }
         </div>
 

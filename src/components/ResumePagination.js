@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import StarRating from './StarRating';
 import AddRating from './AddRating';
+import * as Constants from './../constants';
 
-
-const COACH_REST_API_URL = "http://localhost:8080/coaches";
 
 function Pagination(props) {    
 
@@ -12,11 +11,18 @@ function Pagination(props) {
     // useEffect = componentDidMount + componentDidUpdate + componentWillUnmount
     // passing an empty array [] as second argument tells React that your effect doesn't depend on any value from props or states; otherwise the state change triggers re-rendering (infinite loop) = componentDidMount + componentWillUnmount
     useEffect(() => {
-        axios.get(COACH_REST_API_URL).then((response) => {
-            console.log(response.data._embedded.coaches);
-            setCoaches(response.data._embedded.coaches);
-        });
-    }, []);
+        if (props.company) {
+            axios.get(Constants.COACH_REST_API_URL + Constants.FILTER_COMPANY + `${props.company}`).then((response) => {
+                console.log(response);
+                setCoaches(response.data);
+            })
+        } else {
+            axios.get(Constants.COACH_REST_API_URL).then((response) => {
+                console.log(response.data._embedded.coaches);
+                setCoaches(response.data._embedded.coaches);
+            });
+        }
+    }, [props.company]);
 
     const averageRatings = (arr) => {
         return (arr != null) ? arr.reduce((a,b) => a+b, 0)/arr.length : 0;
@@ -39,13 +45,12 @@ function Pagination(props) {
             console.log(coaches[coachesIndex].ratings);
             let oldRatings = coaches[coachesIndex].ratings;
             if (oldRatings == null) {
-
-                axios.patch(COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings":[`${newRating}`]}).then((response) => {
+                axios.patch(Constants.COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings":[`${newRating}`]}).then((response) => {
                     console.log(response.data);                        
                 })
             } else {
                 oldRatings.push(newRating);
-                axios.patch(COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings": oldRatings}).then((response) => {
+                axios.patch(Constants.COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings": oldRatings}).then((response) => {
                     console.log(response.data);
                 })
             }
@@ -69,7 +74,7 @@ function Pagination(props) {
                 <td className="description" valign="middle">
                     <strong>{result.name}</strong>
                     <br/>
-                    {result.role}
+                    {`${result.role} at ${result.company}`}
                 </td>
                 <td valign="middle">
                     <div>

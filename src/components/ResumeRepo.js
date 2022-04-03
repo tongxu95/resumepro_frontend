@@ -1,22 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import ResumePagination from './ResumePagination';
 
 function ResumeRepo(props) {
 
     const [query, setQuery] = useState("");
-    const [searchResult, setSearchResult] = useState("");
+    const [submitSearch, setSubmitSearch] = useState(false);
+    const [searchTerm, setsearchTerm] = useState("");
+    const [company, setCompany] = useState();
 
     const handleChange = (e) => {
         setQuery(e.target.value);
     }
 
-    const searchCompany = (query) => {
-        console.log(query);
-        if (query !== "") {
-            setSearchResult(`matching "${query}"`);
-        } 
-    }
+    useEffect(() => {
+        if (submitSearch && query !== "") {
+            setCompany(query);
+            setsearchTerm(`matching "${query}"`);
+        };
+        setSubmitSearch(false);
+    }, [submitSearch]);
 
     return (
         <div className="container">
@@ -41,14 +45,14 @@ function ResumeRepo(props) {
                                 className="btn btn-primary button-height" 
                                 type="button"
                                 onClick={() => {
-                                    searchCompany(query)
+                                    setSubmitSearch(true)
                                 }}
                             >
                                 <i className="fa fa-search"></i>
                             </button>
                         </span>
                     </div>
-                    <p className="align-left notes">Showing all results {searchResult}</p>
+                    <p className="align-left notes">Showing all results {searchTerm}</p>
                 </div>
 
                 <div className="col-2-min-wid grid-body">
@@ -60,36 +64,36 @@ function ResumeRepo(props) {
                     {/* Filter by category */}
                     <h6 className="align-left">By category:</h6>
                     <div className="checkbox align-left">
-                        <label><input type="checkbox" className="icheck right-spacing"/>Application</label>
+                        <label><input type="checkbox" className="icheck right-spacing"/>Product</label>
                     </div>
                     <div className="checkbox align-left">
                         <label>
                             <input type="checkbox" className="icheck right-spacing"/> 
-                            Design
+                            Software
                         </label>
                     </div>
                     <div className="checkbox align-left">
                         <label>
                             <input type="checkbox" className="icheck right-spacing"/> 
-                            Desktop
+                            Consulting
                         </label>
                     </div>
                     <div className="checkbox align-left">
                         <label>
                             <input type="checkbox" className="icheck right-spacing"/> 
-                            Management
+                            HR
                         </label>
                     </div>
                     <div className="checkbox align-left">
                         <label>
                             <input type="checkbox" className="icheck right-spacing"/> 
-                            Mobile
+                            Accounting
                         </label>
                     </div>
                 </div>
                 
                 <div className="col-10">
-                    <ResumePagination pages="2" />
+                    <ResumePagination company={company} />
                 </div>
                 
             </div>
