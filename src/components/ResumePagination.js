@@ -13,12 +13,10 @@ function Pagination(props) {
     useEffect(() => {
         if (props.company) {
             axios.get(Constants.COACH_REST_API_URL + Constants.FILTER_COMPANY + `${props.company}`).then((response) => {
-                console.log(response);
                 setCoaches(response.data);
             })
         } else {
             axios.get(Constants.COACH_REST_API_URL).then((response) => {
-                console.log(response.data._embedded.coaches);
                 setCoaches(response.data._embedded.coaches);
             });
         }
@@ -39,10 +37,6 @@ function Pagination(props) {
 
     useEffect(() => {
         if (newRating != null) {
-            console.log(newRating);
-            console.log(coachesIndex);
-            console.log(coachIndexForNewRating);
-            console.log(coaches[coachesIndex].ratings);
             let oldRatings = coaches[coachesIndex].ratings;
             if (oldRatings == null) {
                 axios.patch(Constants.COACH_REST_API_URL + `/${coachIndexForNewRating}`, {"ratings":[`${newRating}`]}).then((response) => {

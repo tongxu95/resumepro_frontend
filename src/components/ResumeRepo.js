@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
+import FilterByCategory from './FilterByCategory';
 import ResumePagination from './ResumePagination';
 
 function ResumeRepo(props) {
@@ -8,18 +8,18 @@ function ResumeRepo(props) {
     const [query, setQuery] = useState("");
     const [submitSearch, setSubmitSearch] = useState(false);
     const [searchTerm, setsearchTerm] = useState("");
-    const [company, setCompany] = useState();
+    const [company, setCompany] = useState("");
 
     const handleChange = (e) => {
         setQuery(e.target.value);
     }
 
     useEffect(() => {
-        if (submitSearch && query !== "") {
+        if (submitSearch) {
             setCompany(query);
             setsearchTerm(`matching "${query}"`);
+            setSubmitSearch(false);
         };
-        setSubmitSearch(false);
     }, [submitSearch]);
 
     return (
@@ -55,42 +55,7 @@ function ResumeRepo(props) {
                     <p className="align-left notes">Showing all results {searchTerm}</p>
                 </div>
 
-                <div className="col-2-min-wid grid-body">
-                    <h4 className="align-left">
-                        <i className="fa fa-filter right-spacing"></i> 
-                        Filters
-                    </h4>
-                    <hr/>
-                    {/* Filter by category */}
-                    <h6 className="align-left">By category:</h6>
-                    <div className="checkbox align-left">
-                        <label><input type="checkbox" className="icheck right-spacing"/>Product</label>
-                    </div>
-                    <div className="checkbox align-left">
-                        <label>
-                            <input type="checkbox" className="icheck right-spacing"/> 
-                            Software
-                        </label>
-                    </div>
-                    <div className="checkbox align-left">
-                        <label>
-                            <input type="checkbox" className="icheck right-spacing"/> 
-                            Consulting
-                        </label>
-                    </div>
-                    <div className="checkbox align-left">
-                        <label>
-                            <input type="checkbox" className="icheck right-spacing"/> 
-                            HR
-                        </label>
-                    </div>
-                    <div className="checkbox align-left">
-                        <label>
-                            <input type="checkbox" className="icheck right-spacing"/> 
-                            Accounting
-                        </label>
-                    </div>
-                </div>
+                <FilterByCategory />
                 
                 <div className="col-10">
                     <ResumePagination company={company} />
